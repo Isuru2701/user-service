@@ -1,6 +1,6 @@
-package User.config;
+package userservice.config;
 
-import User.service.DetailService;
+import userservice.service.DetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

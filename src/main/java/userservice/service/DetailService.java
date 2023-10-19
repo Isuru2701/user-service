@@ -1,8 +1,8 @@
-package User.service;
+package userservice.service;
 
-import User.model.Detail;
-import User.model.User;
-import User.repository.UserRepository;
+import userservice.model.Detail;
+import userservice.model.User;
+import userservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
