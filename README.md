@@ -14,5 +14,5 @@
 ## Database
 ```mysql
 create database Users;
-create table user_tlb(id int primary key auto_increment,name varchar(40),email varchar(50),password varchar(40));
+create table user_tlb(id int primary key auto_increment,name varchar(40),email varchar(50),password varchar(60));
 ```
