@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -36,29 +37,37 @@ public class UserService {
     }
 
 
-
     public User register(User user) {
-        if (userRepository.existsByEmail(user.getEmail())) {
-          return null;
+        if (userRepository.existsByUsername(user.getUsername())) {
+            return null;
         }
 
-         //Set the user's password to the hashed password.
+        //Set the user's password to the hashed password.
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
 
-    }
-
-
-    public User login(String email, String password){
         Authentication auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(username, password)
+                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
         );
+
         SecurityContextHolder.getContext().setAuthentication(auth);
 
-        return ResponseEntity.ok("ok");
+        return userRepository.save(user);
+
+
+    }
+
+    public String login(String username, String password) {
+        try {
+            Authentication auth = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(username, password)
+            );
+            SecurityContextHolder.getContext().setAuthentication(auth);
+            return "success";
+        } catch (AuthenticationException e) {
+            return "";
+        }
 
     }
 
 
-
-    }
+}
