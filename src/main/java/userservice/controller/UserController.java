@@ -1,6 +1,8 @@
 package userservice.controller;
 
 
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import userservice.model.User;
 import userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,10 +43,14 @@ public class UserController {
 
     }
 
-    @GetMapping(path = "/")
+    @GetMapping("/")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
-
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(){
+        SecurityContextHolder.clearContext();
+        return ResponseEntity.status(HttpStatus.OK).body("logged out");
+    }
 }
