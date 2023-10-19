@@ -15,27 +15,26 @@ import java.util.List;
 @RequestMapping("users")
 public class UserController {
 
+
+    @PostMapping("/register")
+    public User register(@RequestBody User user) {
+        System.out.println(user.getUsername());
+        System.out.println(user.getEmail());
+        System.out.println(user.getPassword());
+        return userService.register(user);
+    }
+
     @Autowired
     private UserService userService;
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
 
 //    @PostMapping("/login")
 //    public ResponseEntity<String> login(@RequestBody User user) {
 //        return userService.login(user.getUsername(), user.getPassword());
 //
 //    }
-
-    @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody User user) {
-        return userService.register(user);
-    }
-
-    @GetMapping(path = "/users")
-    public List<User> getAllusers() {
-        return userService.getAllusers();
+    @GetMapping(path = "/")
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
     }
 
 

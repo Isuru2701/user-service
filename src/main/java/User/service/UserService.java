@@ -31,7 +31,7 @@ public class UserService {
 //    private AuthenticationManager authenticationManager;
 
 
-    public List<User> getAllusers() {
+    public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
@@ -41,17 +41,17 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public ResponseEntity<String> register(User user) {
-        if (userRepository.existsByUsername(user.getUsername())) {
-          return null;
-        }
+    public User  register(User user) {
+//        if (userRepository.existsByUsername(user.getUsername())) {
+//          return null;
+//        }
 
         // Set the user's password to the hashed password.
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        System.out.println(user.getPassword());
 
-        userRepository.save(user);
+        return userRepository.save(user);
 
-        return ResponseEntity.ok("ok");
     }
 
 
