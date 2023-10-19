@@ -30,16 +30,22 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-//    @PostMapping("/login")
-//    public ResponseEntity<String> login(@RequestBody User user) {
-//        return userService.login(user.getUsername(), user.getPassword());
-//
-//    }
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody User user) {
+        User loginUser = userService.login(user.getUsername(), user.getPassword());
+        if (loginUser != null) {
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(loginUser);
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Username and password combination is invalid");
+        }
+
+    }
+
     @GetMapping(path = "/")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
-
 
 
 }

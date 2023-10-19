@@ -27,8 +27,8 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-//    @Autowired
-//    private AuthenticationManager authenticationManager;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
 
     public List<User> getAllUsers() {
@@ -37,8 +37,8 @@ public class UserService {
 
 
 
-    public User  register(User user) {
-        if (userRepository.existsByUsername(user.getUsername())) {
+    public User register(User user) {
+        if (userRepository.existsByEmail(user.getEmail())) {
           return null;
         }
 
@@ -49,16 +49,15 @@ public class UserService {
     }
 
 
-//    public ResponseEntity<String> login(String username, String password){
-//        System.out.println("username: " + username +  " password: " + password);
-//        Authentication auth = authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(username, password)
-//        );
-//        SecurityContextHolder.getContext().setAuthentication(auth);
-//
-//        return ResponseEntity.ok("ok");
-//
-//    }
+    public User login(String email, String password){
+        Authentication auth = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(username, password)
+        );
+        SecurityContextHolder.getContext().setAuthentication(auth);
+
+        return ResponseEntity.ok("ok");
+
+    }
 
 
 
