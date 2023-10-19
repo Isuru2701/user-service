@@ -61,6 +61,7 @@ public class UserService {
             Authentication auth = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(username, password)
             );
+
             SecurityContextHolder.getContext().setAuthentication(auth);
             return "success";
         } catch (AuthenticationException e) {
