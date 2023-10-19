@@ -40,7 +40,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User register(User user) {
+    public ResponseEntity<String> register(User user) {
         if (userRepository.existsByUsername(user.getUsername())) {
           return null;
         }
@@ -48,8 +48,8 @@ public class UserService {
 
         // Set the user's password to the hashed password.
         user.setPassword(hashedPassword);
-
-        return userRepository.save(user);
+        userRepository.save(user);
+        return ResponseEntity.ok("ok");
     }
 
 
@@ -60,6 +60,7 @@ public class UserService {
         );
         SecurityContextHolder.getContext().setAuthentication(auth);
 
+        return ResponseEntity.ok("ok");
 
     }
 
