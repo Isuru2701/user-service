@@ -18,17 +18,15 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody User user) {
-        return userService.login(user.getUsername(), user.getPassword());
-
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity<String> login(@RequestBody User user) {
+//        return userService.login(user.getUsername(), user.getPassword());
+//
+//    }
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody User user) {

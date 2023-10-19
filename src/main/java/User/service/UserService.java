@@ -10,6 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -24,10 +25,10 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+//    @Autowired
+//    private AuthenticationManager authenticationManager;
 
 
     public List<User> getAllusers() {
@@ -44,25 +45,26 @@ public class UserService {
         if (userRepository.existsByUsername(user.getUsername())) {
           return null;
         }
-        String hashedPassword = passwordEncoder.encode(user.getPassword());
 
         // Set the user's password to the hashed password.
-        user.setPassword(hashedPassword);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         userRepository.save(user);
+
         return ResponseEntity.ok("ok");
     }
 
 
-    public ResponseEntity<String> login(String username, String password){
-        System.out.println("username: " + username +  " password: " + password);
-        Authentication auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(username, password)
-        );
-        SecurityContextHolder.getContext().setAuthentication(auth);
-
-        return ResponseEntity.ok("ok");
-
-    }
+//    public ResponseEntity<String> login(String username, String password){
+//        System.out.println("username: " + username +  " password: " + password);
+//        Authentication auth = authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(username, password)
+//        );
+//        SecurityContextHolder.getContext().setAuthentication(auth);
+//
+//        return ResponseEntity.ok("ok");
+//
+//    }
 
 
 
