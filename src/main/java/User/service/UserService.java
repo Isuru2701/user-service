@@ -53,14 +53,14 @@ public class UserService {
     }
 
 
-    public ResponseEntity<String> login(User user){
-        System.out.println("username: " + user.getUsername() +  " password: " + user.getPassword());
+    public ResponseEntity<String> login(String username, String password){
+        System.out.println("username: " + username +  " password: " + password);
         Authentication auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
+                new UsernamePasswordAuthenticationToken(username, password)
         );
         SecurityContextHolder.getContext().setAuthentication(auth);
 
-        return ResponseEntity.ok("Success");
+        return
     }
 
 
