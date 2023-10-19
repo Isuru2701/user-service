@@ -37,16 +37,12 @@ public class UserService {
 
 
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
     public User  register(User user) {
-//        if (userRepository.existsByUsername(user.getUsername())) {
-//          return null;
-//        }
+        if (userRepository.existsByUsername(user.getUsername())) {
+          return null;
+        }
 
-        // Set the user's password to the hashed password.
+         //Set the user's password to the hashed password.
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         System.out.println(user.getPassword());
 
