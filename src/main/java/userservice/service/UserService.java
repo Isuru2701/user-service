@@ -40,15 +40,8 @@ public class UserService {
         //Set the user's password to the hashed password.
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        userRepository.save(user);
 
-        Authentication auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
-        );
-
-        SecurityContextHolder.getContext().setAuthentication(auth);
-
-        return user;
+        return userRepository.save(user);
 
     }
 
