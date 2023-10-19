@@ -14,25 +14,49 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    /**
+     * Security detail object used by AuthenticationManager
+     */
     @Autowired
     private DetailService detailService;
 
+    /**
+     * Exposes authenticationManagerBean for use in UserService
+     * @return authenticationManagerBean
+     * @throws Exception
+     */
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 
+    /**
+     * Generates and exposes a BCrypt password encoder
+     * @return
+     */
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Sets up AuthenticationManager. Handled by container
+     * @param auth
+     * @throws Exception
+     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(detailService).passwordEncoder(passwordEncoder());
     }
 
+    //TODO: development level configure(). Change before deploying.
+
+    /**
+     * Security detail on accessible endpoints
+     * @param http
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
