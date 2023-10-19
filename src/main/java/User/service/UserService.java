@@ -4,6 +4,11 @@ import User.model.User;
 import User.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +26,8 @@ public class UserService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
 
     public List<User> getAllusers() {
@@ -46,12 +53,14 @@ public class UserService {
     }
 
 
-    public User login(String username, String password){
-        String hashedPassword = passwordEncoder.encode(password);
-        User user = userRepository.findByUsernameAndPassword(username, hashedPassword);
+    public ResponseEntity<String> login(String username, String password){
+        System.out.println("username: " + username +  " password: " + password);
+        Authentication auth = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(username, password)
+        );
+        SecurityContextHolder.getContext().setAuthentication(auth);
 
-        return user;
-
+        return
     }
 
 
