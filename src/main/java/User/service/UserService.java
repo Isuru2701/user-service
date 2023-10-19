@@ -60,7 +60,7 @@ public class UserService {
         );
         SecurityContextHolder.getContext().setAuthentication(auth);
 
-        return
+
     }
 
 
