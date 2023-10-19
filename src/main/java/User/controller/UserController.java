@@ -16,6 +16,8 @@ import java.util.List;
 @RequestMapping("users")
 public class UserController {
 
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User user) {
@@ -27,12 +29,10 @@ public class UserController {
         }
     }
 
-    @Autowired
-    private UserService userService;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User user) {
-        User loginUser = userService.login(user.getUsername(), user.getPassword());
+        String loginUser = userService.login(user.getUsername(), user.getPassword());
         if (loginUser != null) {
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(loginUser);
         }

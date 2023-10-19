@@ -64,7 +64,7 @@ public class UserService {
             SecurityContextHolder.getContext().setAuthentication(auth);
             return "success";
         } catch (AuthenticationException e) {
-            return "";
+            return null;
         }
 
     }
