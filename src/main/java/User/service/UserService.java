@@ -44,8 +44,6 @@ public class UserService {
 
          //Set the user's password to the hashed password.
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        System.out.println(user.getPassword());
-
         return userRepository.save(user);
 
     }

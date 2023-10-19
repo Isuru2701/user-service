@@ -4,6 +4,7 @@ package User.controller;
 import User.model.User;
 import User.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -17,11 +18,13 @@ public class UserController {
 
 
     @PostMapping("/register")
-    public User register(@RequestBody User user) {
-        System.out.println(user.getUsername());
-        System.out.println(user.getEmail());
-        System.out.println(user.getPassword());
-        return userService.register(user);
+    public ResponseEntity<?> register(@RequestBody User user) {
+        User registeredUser = userService.register(user);
+        if (registeredUser != null) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(registeredUser);
+        } else {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Username already exists. Please choose a different username.");
+        }
     }
 
     @Autowired
