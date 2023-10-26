@@ -3,6 +3,7 @@ package userservice.controller;
 
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import userservice.dto.UserDTO;
 import userservice.model.User;
 import userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,25 +22,26 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody User user) {
+    public String register(@RequestBody User user) {
         User registeredUser = userService.register(user);
         if (registeredUser != null) {
-            return ResponseEntity.status(HttpStatus.OK).body(registeredUser);
+            return "success";
         } else {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Username already exists. Please choose a different username.");
+            return "failed";
         }
     }
 
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody User user) {
-        String loginUser = userService.login(user.getUsername(), user.getPassword());
-        if (loginUser != null) {
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(loginUser);
+    public String login(@RequestBody User user) {
+        boolean loginUser = userService.login(user.getUsername(), user.getPassword());
+        if (loginUser) {
+            return"success";
         }
-        else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Username and password combination is invalid");
+        else{
+            return "failed";
         }
+
 
     }
 

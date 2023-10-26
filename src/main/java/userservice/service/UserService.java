@@ -36,25 +36,28 @@ public class UserService {
         if (userRepository.existsByUsername(user.getUsername())) {
             return null;
         }
-
+        else if(userRepository.existsByEmail(user.getEmail())) {
+            return null;
+        }
         //Set the user's password to the hashed password.
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-
         return userRepository.save(user);
 
     }
 
-    public String login(String username, String password) {
+    public boolean login(String username, String password) {
         try {
             Authentication auth = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(username, password)
             );
 
             SecurityContextHolder.getContext().setAuthentication(auth);
-            return "success";
+            return true;
         } catch (AuthenticationException e) {
-            return null;
+            return false;
+        }
+        catch(Exception e) {
+            return false;
         }
 
     }
