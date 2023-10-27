@@ -1,5 +1,6 @@
 package userservice.service;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import userservice.model.User;
 import userservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,25 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
 
+    }
+
+    public boolean updatePassword(String username, String password, String newPassword) {
+        User user = userRepository.findByUsername(username);
+
+        //handles the comparison for us
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        //allow change is current password matches existing one, AND if new password is not the same as old password
+        if(passwordEncoder.matches(password, user.getPassword()) && !password.equals(newPassword)){
+            //allow change
+            user.setPassword(newPassword);
+            userRepository.save(user);
+            return true; //success
+
+        }
+        else {
+            return false; //fail
+        }
     }
 
     public boolean login(String username, String password) {

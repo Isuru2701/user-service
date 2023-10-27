@@ -36,9 +36,8 @@ public class UserController {
     public String login(@RequestBody User user) {
         boolean loginUser = userService.login(user.getUsername(), user.getPassword());
         if (loginUser) {
-            return"success";
-        }
-        else{
+            return "success";
+        } else {
             return "failed";
         }
 
@@ -51,8 +50,18 @@ public class UserController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(){
+    public ResponseEntity<?> logout() {
         SecurityContextHolder.clearContext();
         return ResponseEntity.status(HttpStatus.OK).body("logged out");
+    }
+
+
+    @PutMapping("/update")
+    public String updatePassword(String username, String password, String newPassword) {
+        if (userService.updatePassword(username, password, newPassword)) {
+            return "success";
+        } else {
+            return "failed";
+        }
     }
 }
