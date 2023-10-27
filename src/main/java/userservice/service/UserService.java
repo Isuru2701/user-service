@@ -47,21 +47,27 @@ public class UserService {
     }
 
     public boolean updatePassword(String username, String password, String newPassword) {
+        System.out.println(username);
         User user = userRepository.findByUsername(username);
+        System.out.println(user.toString());
 
         //handles the comparison for us
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
         //allow change is current password matches existing one, AND if new password is not the same as old password
-        if(passwordEncoder.matches(password, user.getPassword()) && !password.equals(newPassword)){
-            //allow change
-            user.setPassword(newPassword);
-            userRepository.save(user);
-            return true; //success
+        try {
+            if (passwordEncoder.matches(password, user.getPassword()) && !password.equals(newPassword)) {
+                //allow change
+                user.setPassword(passwordEncoder.encode(newPassword));
+                userRepository.save(user);
+                return true; //success
 
+            } else {
+                return false; //fail
+            }
         }
-        else {
-            return false; //fail
+        catch(Exception e) {
+            return false;
         }
     }
 

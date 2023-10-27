@@ -3,6 +3,7 @@ package userservice.controller;
 
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import userservice.dto.UpdateDTO;
 import userservice.dto.UserDTO;
 import userservice.model.User;
 import userservice.service.UserService;
@@ -57,8 +58,8 @@ public class UserController {
 
 
     @PutMapping("/update")
-    public String updatePassword(String username, String password, String newPassword) {
-        if (userService.updatePassword(username, password, newPassword)) {
+    public String updatePassword(@RequestBody UpdateDTO user) {
+        if (userService.updatePassword(user.getUsername(), user.getPassword(), user.getNewPassword())) {
             return "success";
         } else {
             return "failed";
